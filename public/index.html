@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            label {font-size:  1em; display: inline-block; float: left;}
+            
+            fieldset { padding: 1em; width: 15em;}
+            .myClass {margin-bottom: 0.5em;}
+        </style>
+    </head>
+    <body>
+        <h1>Form Demo</h1>
+    
+        <form action="../welcome" method="post">
+            <fieldset>  
+            
+            <div class="myClass">    
+                <label for="test1">Test:</label>
+                <input type="text" name="test1" id="test1" value="1"  />
+            </div>
+                
+            <div class="myClass">    
+                <label for="test2">Test2:</label>
+                <input type="text" name="test2" id="test2" value="2"  />
+            </div>    
+            
+            <div class="myClass">    
+                <label for="test3">Test3:</label>
+                <input type="checkbox" name="checkbox1" id="checkbox1"   />
+            </div>
+                
+            
+            <div class="myClass">
+             <input type="submit" name="submit_test" value="Send"  />
+            </div>
+            
+            
+            </fieldset>
+            
+        </form>
+       
+    </body>
+</html>
