@@ -1,0 +1,13 @@
+Opgave 1
+
+
+a) min server har ikke givet browseren en content type.
+b) Man ser en h2 overskrift og en tittel.
+c) 
+  Headers h = he.getResponseHeaders();
+  h.add("Content-Type", "text/html");
+
+  Dette kodestykke gør så serveren sender dens content type med.
+
+opgave 2
+	
