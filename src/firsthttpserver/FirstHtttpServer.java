@@ -84,7 +84,7 @@ response = sb.toString();
         sb.append("</head>\n");
         sb.append("<body>\n");
         sb.append("<table border='1'><tr><td>Header</td> <td>Value</td></tr>");
-        System.out.println("herjeor");
+      
         for(String key : he.getRequestHeaders().keySet()){
        
         sb.append("<tr>");
@@ -93,7 +93,7 @@ response = sb.toString();
             sb.append("</td>");
             
             sb.append("<td>");
-                    //sb.append(key.);
+                    sb.append(he.getRequestHeaders().get(key));
             sb.append("</td>");
             
         sb.append("</tr>");
