@@ -33,6 +33,7 @@ public class FirstHtttpServer {
         server.createContext("/headers", new RequestHandlerHeaders());
         server.createContext("/pages", new RequestHandlerPages());
         server.createContext("/parameters", new RequestHandlerParameters());
+        server.createContext("/url", new RequestHandlerUrl()); // bruges til at søge i urlen.
 
         server.setExecutor(null); // Use the default executor
         server.start();
@@ -185,19 +186,16 @@ public class FirstHtttpServer {
                 while (scan.hasNext()) {
                     str = scan.nextLine();
                 }
-            }
-            else
-            {
+            } else {
                 str += he.getRequestURI();
                 System.out.println(str);
             }
             sb.append("<h4> Metode " + metode + " <br /></h4>");
             String arr[] = str.split("&");
-           if(metode.equalsIgnoreCase("GET"))
-           {
+            if (metode.equalsIgnoreCase("GET")) {
                 arr[0] = arr[0].substring(12);
-           }
-          
+            }
+
             for (int i = 0; i < arr.length; i++) {
                 sb.append(arr[i].toString() + " <br />");
             }
@@ -212,6 +210,49 @@ public class FirstHtttpServer {
             try (PrintWriter pw = new PrintWriter(he.getResponseBody())) {
                 pw.print(response); //What happens if we use a println instead of print --> Explain
             }
+        }
+    }
+
+    static class RequestHandlerUrl implements HttpHandler {
+
+        @Override
+        public void handle(HttpExchange he) throws IOException {
+            String response = null;
+            String contentFolder = "public/";
+            String url = "";
+            url = he.getRequestURI().toString();
+            url = url.substring(5);
+            String doctype[] = url.split("\\.");
+            File file = new File(contentFolder + url);
+            byte[] bytesToSend = new byte[(int) file.length()];
+            try {
+                BufferedInputStream bis = new BufferedInputStream(new FileInputStream(file));
+                bis.read(bytesToSend, 0, bytesToSend.length);
+            } catch (IOException ie) {
+                response = "Den indtastede fil findes ikke";
+               he.sendResponseHeaders(200, response.length());
+                try (PrintWriter pw = new PrintWriter(he.getResponseBody())) {
+                    pw.print(response); //What happens if we use a println instead of print --> Explain
+                }
+                 ie.printStackTrace();
+            }
+            String dtype = "";
+            if (doctype[1].equalsIgnoreCase("jpg")) {
+                dtype = "Images/Jpg";
+            } else if (doctype[1].equalsIgnoreCase("pdf")) {
+                dtype = "application/pdf";
+            } else if (doctype[1].equalsIgnoreCase("basic")) {
+                dtype = "audio/basic";
+            }
+
+            Headers h = he.getResponseHeaders();
+            h.add("Content-Type", dtype);
+
+            he.sendResponseHeaders(200, bytesToSend.length);
+            try (OutputStream os = he.getResponseBody()) {
+                os.write(bytesToSend, 0, bytesToSend.length);
+            }
+
         }
     }
 
